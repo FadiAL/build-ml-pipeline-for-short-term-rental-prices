@@ -97,7 +97,8 @@ def go(args):
         "random_forest_dir",
         serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE,
         signature=signature,
-        input_example=X_val.iloc[:2]
+        input_example=X_val.iloc[:2],
+        conda_env='conda.yml'
     )
 
     # Upload the model we just exported to W&B
