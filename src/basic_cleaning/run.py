@@ -13,6 +13,23 @@ logger = logging.getLogger()
 
 
 def go(args):
+    """
+    Run data cleaning on the given set of arguments
+
+    Args:
+      args: Input command-line arguments, should have:
+              1. input_artifact       Input artifact name
+              2. output_artifact      Output artifact name
+              3. output_type          Output artifact type
+              4. output_description   Output artifact description
+              5. min_price            Minimum price constraint
+              6. max_price            Maximum price constraint
+              7. min_longitude        Minimum longitude constraint
+              8. max_longitude        Maximum longitude constraint
+              9. min_latitude        Minimum latitude constraint
+              10. max_latitude        Maximum latitude constraint
+            Run file with --help for more information
+    """
     logger.info("Starting W&B run")
     run = wandb.init(job_type="basic_cleaning")
     run.config.update(args)
@@ -31,7 +48,7 @@ def go(args):
     df["last_review"] = pd.to_datetime(df["last_review"])
 
     logger.info("Constraining latitude and longitude to wtihin acceptable range")
-    idx = df["longitude"].between(-74.25, -73.50) & df["latitude"].between(40.5, 41.2)
+    idx = df["longitude"].between(args.min_longitude, args.max_longitude) & df["latitude"].between(args.min_latitude, args.max_latitude)
     df = df[idx].copy()
 
     logger.info("Saving cleaned data to csv with pandas")
@@ -94,6 +111,33 @@ if __name__ == "__main__":
         required=True
     )
 
+    parser.add_argument(
+        "--min_longitude",
+        type=float,
+        help="Minimum longitude to restrict",
+        required=True
+    )
+
+    parser.add_argument(
+        "--max_longitude",
+        type=float,
+        help="Maximum longitude to restrict",
+        required=True
+    )
+
+    parser.add_argument(
+        "--min_latitude",
+        type=float,
+        help="Minimum latitude to restrict",
+        required=True
+    )
+
+    parser.add_argument(
+        "--max_latitude",
+        type=float,
+        help="Maximum latitude to restrict",
+        required=True
+    )
 
     args = parser.parse_args()
 
