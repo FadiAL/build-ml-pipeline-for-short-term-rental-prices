@@ -567,3 +567,20 @@ you have trained your new model on the new data.
 ## License
 
 [License](LICENSE.txt)
+
+# Submission Notes
+## Links
+* W&B: https://wandb.ai/fmall/nyc_airbnb/
+* Github: https://github.com/FadiAL/build-ml-pipeline-for-short-term-rental-prices/tree/main
+## Info on dependencies and environments
+Due to some serious environment and dependency issues, a lot of the package versions pinned in the various
+conda.yml files are incredibly outdated and clash horribly together on my local system.
+
+For that reason, I had to overhaul several of them, especially the EDA step, and replace a ton of the chosen
+package versions with newer ones that work for me.  Most of my time on this project was spent wrangling the
+outdated dependencies.
+
+Of note is that this also impacted the `test_regression_model` step.  By running it online, it was using an
+outdated version of the `cloudpickle` package (`2.1.0`), whereas the version used locally is always `3.0.0`.  For
+that reason, I ended up modifying the local version of the package to pin that dependency and use it instead, otherwise
+the random trees model could not get loaded.
