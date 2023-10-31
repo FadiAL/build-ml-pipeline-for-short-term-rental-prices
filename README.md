@@ -14,7 +14,7 @@ Install it with conda: `conda create -f environment.yml`
 ## Components
 For all of the below components, see their `MLproject` file for details about arguments
 
-### get_data
+### download_file
 This component logs the chosen sample data to Weights & Biases.
 
 #### Input Artifacts
@@ -81,3 +81,19 @@ An mlflow model directory, and a test dataset
 
 #### Output Artifacts
 No output artifacts
+
+## Visualizations
+The whole pipeline, visualized.  The sequence of steps are:
+
+1. download_file
+2. basic_cleaning
+3. data_tests
+4. train_val_test_split
+5. train_random_forest
+6. test_model
+
+[image](images/pipeline.png "Pipeline")
+
+The W&B values are tabularized and sorted here, ordered by Ascending MAE
+
+[image](images/sorted-wandb-values.png "Sorted Tabular Values")
